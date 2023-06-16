@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="//www.thymeleaf.org/">
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<meta name="_csrf" th:content="${_csrf.token}"/>
+		<!-- default header name is X-CSRF-TOKEN -->
+		<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+		<link rel="stylesheet" href="/css/admin/item.css">
+		<script src="/webjars/jquery/jquery.min.js"></script>
+		<script src="/js/admin/item.js"></script>
+	</head>
+	<body>
+		<a href="/">HOME</a>
+		<a href="/admin/item">상품</a>
+		<hr>
+		<h1>관리자-상품등록</h1>
+		<form action="/admin/item" method="post">
+			<p>
+				<input type="text" name="title" placeholder="상품명">
+			</p>
+			<p>
+				<input type="text" name="price" placeholder="가격">
+			</p>
+			<p>
+				<input type="text" name="stock" placeholder="재고수량">
+			</p>
+			<p>
+				<i>
+					<label class="img-wrap">
+						<span>+</span>
+						<input type="file" onchange="tempUpload(this)">
+					</label>
+					<input type="hidden" class="bucket-key" name="bucketKey">
+					<input type="hidden" class="org-name" name="orgName">
+				</i>
+			</p>
+			<p>
+				<textarea name="content"></textarea>
+			</p>
+			<p>
+				<input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				<button>상품등록</button>
+			</p>
+		</form>
+		
+	</body>
+</html>

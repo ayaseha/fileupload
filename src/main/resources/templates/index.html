@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="//www.thymeleaf.org/" xmlns:sec="//www.thymeleaf.org/extras/spring-security">
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
+	<body>
+		<th:block sec:authorize="isAnonymous()">
+			<a href="/signin">로그인</a>
+			<a href="/signup">회원가입</a>
+		</th:block>
+		<th:block sec:authorize="isAuthenticated()">
+			<span sec:authorize="hasRole('ADMIN')" th:text="${T(com.green.nowon.security.MyRole).ADMIN.koName}"></span>
+			<span sec:authorize="hasRole('SELLER')" th:text="${T(com.green.nowon.security.MyRole).SELLER.koName}"></span>
+			<span sec:authorize="hasRole('USER')" th:text="${T(com.green.nowon.security.MyRole).USER.koName}"></span>
+			<span >
+				<span sec:authentication="name">이름</span>
+				(<span sec:authentication="principal.nick">닉네임</span>)
+			</span>
+			<form action="/logout" method="post" style="display: inline-block;">
+				<input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				<button>로그아웃</button>
+			</form>
+			<a sec:authorize="hasRole('ADMIN')" href="/admin">관리자페이지</a>
+		</th:block>
+		<hr>
+		<h1>인덱스 페이지</h1>
+	</body>
+</html>
