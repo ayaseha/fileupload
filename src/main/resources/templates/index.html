@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="//www.thymeleaf.org"  
+	  xmlns:sec="//www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="UTF-8">
+        <title>Insert title here</title>
+        <script src="/webjars/jquery/jquery.min.js"></script>
+        <script type="text/javascript">
+        
+        $(function(){
+        	getCategory();
+        });
+        
+        function getCategory(){
+        	$.get(
+      			"/common/category",//url
+      			function(resultHtml){ //success
+        			$("#category").html(resultHtml);
+        		}
+        	)
+        }
+        
+        var value = /*[[${param.no}]]*/ null;
+        var result = (value !== null) ? 1 : 0;
+        console.log(result);
+        
+        function myAsyncFunction(methodType, url) {
+       	  return new Promise((resolve, reject) => {
+       	    const xhr = new XMLHttpRequest()
+       	    xhr.open(methodType, url)
+       	    xhr.onload = () => resolve(xhr.responseText)
+       	    xhr.onerror = () => reject(xhr.statusText)
+       	    xhr.send()
+       	  });
+       	}
+
+        myAsyncFunction("GET",'/test')
+        .then(response => {
+          // 비동기 작업이 성공적으로 완료된 경우의 처리기(callback) 함수
+          console.log('데이터를 성공적으로 가져왔습니다:', response);
+        })
+        .catch(error => {
+          // 비동기 작업이 실패한 경우의 처리기(callback) 함수
+          console.error('데이터를 가져오는 도중 오류가 발생했습니다:', error);
+        });
+        </script>
+    </head>
+    <body>
+    	<th:block th:if="${#authorization.expr('isAnonymous()')}">
+    		<span>비회원</span>
+    	</th:block>
+    	<th:block sec:authorize="isAnonymous()">
+	    	<a href="/signin">로그인</a>
+	    	<a href="/signup">회원가입</a>
+    	</th:block>
+    	<th:block sec:authorize="isAuthenticated()">
+    		
+    		<span sec:authentication="authorities">SimpleGrantedAuthority</span>
+    		<span sec:authorize="hasRole('ADMIN')" th:text="${T(com.green.nowon.security.MyRole).ADMIN.koName}"></span>
+    		<span sec:authorize="hasRole('SELLER')" th:text="${T(com.green.nowon.security.MyRole).SELLER.koName}"></span>
+    		<span sec:authorize="hasRole('USER')" th:text="${T(com.green.nowon.security.MyRole).USER.koName}"></span>
+	    	<span>
+	    		email:<span sec:authentication="principal.email">로그인ID(이메일)</span>,
+	    		username:<span sec:authentication="principal.username">로그인ID(이메일)</span>,
+	    		<span sec:authentication="name">로그인ID(이메일)</span>
+	    		(<span sec:authentication="principal.nick">추가로 구성한 nick확인가능</span>)
+	    	</span>
+	    	<form action="/logout" method="POST" style="display: inline-block;">
+	    		<input type="hidden" th:if="${_csrf}"
+					th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	    		<button>로그아웃</button>
+	    	</form>
+	    	<a sec:authorize="hasRole('ADMIN')" href="/admin">관리자페이지</a>
+    	</th:block>
+    	<hr>
+        <h1>인덱스 페이지</h1>
+        <hr>
+        <section>
+        	<h1>카테고리</h1>
+        	<div id="category">
+        	</div>
+        </section>
+    </body>
+</html>

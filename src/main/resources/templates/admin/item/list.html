@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="//www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Insert title here</title>
+    </head>
+    <body>
+    	<a href="/">HOME</a>
+    	<a href="/admin/item">상품</a>
+    	<hr>
+    	<a href="/admin/item/new">상품등록</a>
+        <h1>관리자-상품리스트</h1>
+        <table border="1">
+        	<tr>
+        		<td>이미지</td>
+        		<td>상품명</td>
+        		<td>가격</td>
+        		<td>재고</td>
+        		<td>등록일</td>
+        	</tr>
+        	<tr th:each="dto:${list}">
+        		<td>
+        			<img alt="리스트이미지" th:src="${dto.url}" width="100px">
+        		</td>
+        		<td th:text="${dto.title}">상품명</td>
+        		<td th:text="${dto.price}">가격</td>
+        		<td th:text="${dto.stock}">재고</td>
+        		<td th:text="${dto.createdDate}">등록일</td>
+        	</tr>
+        </table>
+    </body>
+</html>
