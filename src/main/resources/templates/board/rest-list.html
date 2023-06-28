@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="//www.thymeleaf.org"
+	th:replace="~{layout/layout-common :: layout(~{::head}, ~{::main})}">
+	<head>
+		<script type="text/javascript">
+			$(function(){
+				$.ajax({
+					url:"/rest-boards/all",
+					success:function(resultHtml){
+						$("#responseData").html(resultHtml);
+					}
+				});
+			});
+		</script>
+	</head>
+	<main>
+		<h1>메인영역</h1>
+		<div class="wrap">
+			<p>비동기처리 게시글 리스트</p>
+			<hr>
+			<div id="responseData"></div>			
+			
+		</div>
+	</main>
+</html>

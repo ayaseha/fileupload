@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="//www.thymeleaf.org"
+	th:replace="~{layout/layout-common :: layout(~{::head}, ~{::main})}">
+	<head>
+	</head>
+	<main>
+		<h1>메인영역</h1>
+		<div class="wrap">
+			<p>게시글 리스트</p>
+			<hr>
+			<div style="float: right;">
+				<a href="/boards/new">글쓰기</a>
+			</div>
+			
+			<table>
+				<tr>
+					<td>글번호</td>
+					<td>제목</td>
+					<td>조회수</td>
+					<td>작성자</td>
+					<td>작성일</td>
+				</tr>
+				<tr th:each="dto:${list}">
+					<td th:text="${dto.no}">글번호</td>
+					<td>
+						<a th:href="|/boards/${dto.no}|"  th:text="${dto.subject}">제목</a>
+					</td>
+					<td th:text="${dto.readCount}">조회수</td>
+					<td >
+						<div th:text="${dto.writer}" style="border-bottom: 1px dotted #a9a9a9;"></div>
+						<div th:text="${dto.userIp}"></div>
+					</td>
+					<td th:text="${dto.updatedDate}">작성일</td>
+				</tr>
+				<tr th:if="${#lists.isEmpty(list)}" >
+					<td colspan="5" style="text-align: center;">게시글이 존재하지 않습니다.</td>					
+				</tr>
+			</table>
+			
+			<div th:unless="${#lists.isEmpty(list)}" style="display: flex">
+				<div th:if="${pd.from gt 1}">
+					<a  th:href="|/boards?page=${pd.from-1}|" >&lt;</a>
+				</div>
+				<div>
+					<span th:each="page : ${#numbers.sequence(pd.from,pd.to)}">
+						<a  th:href="|/boards?page=${page}|" th:text="${page}">페이지번호</a>
+					</span>
+				</div>
+				<div th:if="${pd.to lt pd.tot}">
+					<a  th:href="|/boards?page=${pd.to+1}|" >&gt;</a>
+				</div>
+			</div>
+		</div>
+	</main>
+</html>

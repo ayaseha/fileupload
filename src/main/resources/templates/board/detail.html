@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="//www.thymeleaf.org"
+	th:replace="~{layout/layout-common :: layout(~{::head}, ~{::main})}">
+	<head>
+		<script type="text/javascript">
+			$(function(){
+				replyList();
+			})
+			
+			//댓글가져오는
+			function replyList() {
+				var boardNo=$("#detail-board-no").text().trim();
+				$.ajax({
+					url: `/boards/${boardNo}/replies`,
+					success: function(resultHTML){
+						$("#reply-list").html(resultHTML)
+					}
+				
+				});
+			}
+		</script>
+	</head>
+	<main>
+		<h1>메인영역</h1>
+		<div class="wrap">
+			<p>상세 페이지</p>
+			<hr>
+			<table>
+				<tr>
+					<td>글번호</td>
+					<td colspan="3" th:text="${detail.no}" id="detail-board-no"></td>
+				</tr>
+				<tr>
+					<td>작성자</td>
+					<td th:text="${detail.writer}"></td>
+					<td>최종수정일</td>
+					<td th:text="${detail.updatedDate}"></td>
+				</tr>
+				<tr>
+					<td>제목</td>
+					<td colspan="3" th:text="${detail.subject}"></td>
+				</tr>
+				<tr>
+					<td>내용</td>
+					<td colspan="3" th:text="${detail.content}"></td>
+				</tr>
+			</table>
+			<hr>
+			<div id="reply-area">
+				<form th:action="|/boards/${detail.no}/replies|" method="post">
+					<p>
+						<input type="text" name="writer" placeholder="작성자">
+					</p>
+					<p>
+						<input type="text" name="content" placeholder="댓글을 입력하세요">
+					</p>
+					<button>등록</button>
+				</form>
+			</div>
+			<hr>
+			<div id="reply-list">
+			</div>
+			
+		</div>
+	</main>
+</html>

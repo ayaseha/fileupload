@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="//www.thymeleaf.org"> 
+	<table>
+		<tr>
+			<td>글번호</td>
+			<td>제목</td>
+			<td>조회수</td>
+			<td>작성자</td>
+			<td>작성일</td>
+		</tr>
+		<tr th:each="dto:${list}">
+			<td th:text="${dto.no}">글번호</td>
+			<td th:text="${dto.subject}">제목</td>
+			<td th:text="${dto.readCount}">조회수</td>
+			<td >
+				<div th:text="${dto.writer}" style="border-bottom: 1px dotted #a9a9a9;"></div>
+				<div th:text="${dto.userIp}"></div>
+			</td>
+			<td th:text="${dto.updatedDate}">작성일</td>
+		</tr>
+		<tr th:if="${#lists.isEmpty(list)}" >
+			<td colspan="5" style="text-align: center;">게시글이 존재하지 않습니다.</td>					
+		</tr>
+	</table>
+</html>

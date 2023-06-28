@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="//www.thymeleaf.org"
+	th:replace="~{layout/layout-common :: layout(~{::head}, ~{::main})}">
+	<head>
+	</head>
+	<main>
+		<h1>메인영역</h1>
+		<div class="wrap">
+			<p>게시글 등록</p>
+			<hr>
+			<form action="/boards" method="post">
+				<p>
+					<input type="text" name="subject" placeholder="제목" >
+				</p>
+				<p>
+					<textarea rows="5" cols="500" name="content" placeholder="내용작성"></textarea>
+				</p>
+				<p>
+					<input type="hidden" name="writer" value="test@test.com" >
+					<button>저장</button>
+				</p>
+			</form>
+		</div>
+	</main>
+</html>

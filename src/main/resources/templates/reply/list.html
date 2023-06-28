@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="//www.thymeleaf.org">
+	<table>
+		<tr>
+			<td>댓글내용</td>
+			<td>작성자</td>
+			<td>작성일</td>
+		</tr>
+		<tr th:each="reply:${list}">
+			<td th:text="${reply.content}">댓글내용</td>
+			<td th:text="${reply.writer}">작성자</td>
+			<td th:text="${reply.updatedDate}">작성일</td>
+		</tr>
+		<tr th:if="${#lists.isEmpty(list)}" >
+			<td colspan="3" style="text-align: center; font-size: 10pt;">댓글이 존재하지 않습니다.</td>					
+		</tr>
+	</table>
+</html>

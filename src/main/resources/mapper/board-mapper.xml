@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.nowon.domain.dao.BoardMapper">
+	<!-- 1. !DOCTYPE mapper 정의되어있어야함 -->
+	<!-- 2. namespace는 @Mapper 인터페이스 와 일치해야 함 -->
+	<!-- 3. id는 @Mapper 인터페이스의 메서드이름 과 일치해야 함 -->
+	<!-- 4. select태그는  resultType 정의해서 resultMapping함 -->
+	<select id="findAll" resultType="com.green.nowon.domain.dto.BoardDTO">
+		select * from board 
+		order by no desc 
+		limit #{limit} offset #{offset} 
+	</select>
+	<!-- limit 10, 5 -->
+	<insert id="save">
+		insert into board(subject, content, writer, user_ip)
+		values(#{subject},#{content},#{writer},#{userIp})
+	</insert>  
+	<select id="countAll" resultType="int">
+		select count(*) from board
+	</select>
+	<select id="findByNo" resultType="com.green.nowon.domain.dto.BoardDTO">
+		select * from board where no=#{no}
+	</select>
+</mapper>
